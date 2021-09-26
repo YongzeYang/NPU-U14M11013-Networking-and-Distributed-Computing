@@ -16,8 +16,8 @@ public class FileClient {
 
     Socket socket;//客户端套接字，通过TCP连接至服务器端
     String HOST = "127.0.0.1";//服务器端的IP地址，为本机。
-    //在连接至服务器时，操作系统会自动分配端口号，因此不用在服务器端指定PORT。
-    final int TCP_PORT = 20210;//服务器端的TCP端口号，而非客户端。
+    //在连接至服务器时，操作系统会自动分配端口号，因此不用在客户端指定PORT。
+    final int TCP_PORT = 2021;//服务器端的TCP端口号，而非客户端。
     final int UDP_PORT = 2023;//服务器端的UDP端口号
 
     DatagramSocket datagramSocket;//接收数据包的Socket
@@ -37,6 +37,7 @@ public class FileClient {
             System.out.println("cd <dir>        跳转到<dir>");
             System.out.println("cd..            返回上一级目录。");
             System.out.println("get <filename>  下载文件<filename>");
+            System.out.println("bye             关闭连接。");
             System.out.println("请输入命令:");
         } catch (IOException e) {
             System.out.println("错误：服务器:[" +HOST+":"+TCP_PORT+"]未开启或连接失败！");
@@ -65,30 +66,30 @@ public class FileClient {
                 String command = null;
                 if(stringTokenizer.hasMoreTokens()) {
                     command = stringTokenizer.nextToken();
-                String dir = null;
-                if(stringTokenizer.hasMoreTokens())
-                    dir = stringTokenizer.nextToken();
+                    String dir = null;
+                    if(stringTokenizer.hasMoreTokens())
+                        dir = stringTokenizer.nextToken();
 
-                pw.println(msg); //将整条指令发送给服务器端
-                if(command.equals("get")){
-                    int fileLength =0;
-                    if(dir!=null){
+                    pw.println(msg); //将整条指令发送给服务器端
+                    if(command.equals("get")){
+                        int fileLength =0;
+                        if(dir!=null){
                             fileLength =Integer.parseInt(br.readLine());//从输入流获取服务器端发来的文件大小消息，详见Handler类166行。
                             getFile(dir,fileLength);//将文件名和长度大小信息传到getFile方法。
-                    } else System.out.println("缺少参数。get用法：\nget <filename>  下载文件<filename>");
-                }
+                        } else System.out.println("缺少参数。get用法：\nget <filename>  下载文件<filename>");
+                    }
 
-                String out = null;//接收服务器端发来的其他消息
-                while ((out = br.readLine())!=null) {
-                    if(out.equals("END")) break;//当接收到END时，结束本次会话。详见Handler类switch中每个case的最后一句
-                    System.out.println(out);
-                }
-                System.out.println();
+                    String out = null;//接收服务器端发来的其他消息
+                    while ((out = br.readLine())!=null) {
+                        if(out.equals("END")) break;//当接收到END时，结束本次会话。详见Handler类switch中每个case的最后一句
+                        System.out.println(out);
+                    }
+                    System.out.println();
 
-                if (msg.equals("bye")) {
-                    System.out.println("客户端已退出连接。");
-                    break; //退出
-                }}
+                    if (msg.equals("bye")) {
+                        System.out.println("客户端已退出连接。");
+                        break; //退出
+                    }}
                 else {
                     System.out.println("用法：");
                     System.out.println("ls              列出当前目录名单。");

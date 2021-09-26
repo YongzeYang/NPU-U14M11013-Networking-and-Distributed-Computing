@@ -18,7 +18,7 @@ public class FileServer {
     ExecutorService executorService; //线程池
 
     final String HOST = "127.0.0.1"; //建立本地服务器
-    final int TCP_PORT = 20210; // TCP端口号，可以自定义，但要注意冲突。
+    final int TCP_PORT = 2021; // TCP端口号，可以自定义，但要注意冲突。
     final int BACKLOG = 10;//设定客户端连接请求的队列长度
     final int POOL_SIZE = 4;//线程池大小
 

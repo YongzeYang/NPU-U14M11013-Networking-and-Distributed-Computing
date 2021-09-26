@@ -121,7 +121,7 @@ public class Handler implements Runnable {
                             break;
                         case "get" ://获取文件
                             if(dir!=null)
-                            sendFile(currentPath+"\\"+dir);//传入文件的绝对目录
+                                sendFile(currentPath+"\\"+dir);//传入文件的绝对目录
                             pw.println("当前路径："+currentPath);
                             pw.println("END");
                             break;
@@ -203,7 +203,7 @@ public class Handler implements Runnable {
         for(File file:files) {
 
             if(file.isDirectory()) {
-                pw.print("<dir>         "+file.getName() +"    ");
+                pw.print("<dir>          "+file.getName() +"    ");
                 int i = 20-file.getName().length();
                 if(i>1)for(int j=0;j<i;j++)pw.print(" ");else pw.print("  ");//使输出对齐，并考虑文件名太长的情况
                 pw.print(file.length()/1000+"KB"+"\n");
